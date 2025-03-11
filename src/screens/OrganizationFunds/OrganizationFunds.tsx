@@ -116,7 +116,7 @@ const organizationFunds = (): JSX.Element => {
   }
 
   const [fund, setFund] = useState<InterfaceFundInfo | null>(null);
-  const [searchTerm, setSearchTerm] = useState<string>('');
+  // const [searchTerm, setSearchTerm] = useState<string>('');
   const [sortBy, setSortBy] = useState<'createdAt_ASC' | 'createdAt_DESC'>(
     'createdAt_DESC',
   );
@@ -142,20 +142,30 @@ const organizationFunds = (): JSX.Element => {
     refetch: refetchFunds,
   }: {
     data?: {
-      fundsByOrganization: InterfaceFundInfo[];
+      organization: {
+        funds: {
+          edges: { node: InterfaceFundInfo }[];
+        };
+      };
     };
     loading: boolean;
     error?: Error | undefined;
     refetch: () => void;
   } = useQuery(FUND_LIST, {
     variables: {
-      organizationId: orgId,
-      filter: searchTerm,
-      orderBy: sortBy,
+      input: {
+        id: orgId,
+      },
     },
   });
 
-  const funds = useMemo(() => fundData?.fundsByOrganization ?? [], [fundData]);
+  const funds = useMemo(() => {
+    return (
+      fundData?.organization?.funds?.edges.map(
+        (edge: { node: InterfaceFundInfo }) => edge.node,
+      ) ?? []
+    );
+  }, [fundData]);
 
   const handleClick = (fundId: string): void => {
     navigate(`/orgfundcampaign/${orgId}/${fundId}`);
@@ -207,7 +217,7 @@ const organizationFunds = (): JSX.Element => {
           <div
             className={styles.hyperlinkText}
             data-testid="fundName"
-            onClick={() => handleClick(params.row._id as string)}
+            onClick={() => handleClick(params.row.id as string)}
           >
             {params.row.name}
           </div>
@@ -224,7 +234,7 @@ const organizationFunds = (): JSX.Element => {
       sortable: false,
       headerClassName: `${styles.tableHeader}`,
       renderCell: (params: GridCellParams) => {
-        return params.row.creator.firstName + ' ' + params.row.creator.lastName;
+        return params.row.creator.id;
       },
     },
     {
@@ -299,7 +309,7 @@ const organizationFunds = (): JSX.Element => {
           <Button
             size="sm"
             className={styles.editButton}
-            onClick={() => handleClick(params.row._id as string)}
+            onClick={() => handleClick(params.row.id as string)}
             data-testid="viewBtn"
           >
             <i className="fa fa-eye me-1" />
@@ -316,9 +326,9 @@ const organizationFunds = (): JSX.Element => {
         <div className={`${styles.btnsContainer} gap-4 flex-wrap`}>
           <SearchBar
             placeholder={tCommon('searchByName')}
-            onSearch={setSearchTerm}
             inputTestId="searchByName"
             buttonTestId="searchBtn"
+            onSearch={() => {}}
           />
           <div className="d-flex gap-4 mb-1">
             <SortingButton
@@ -357,7 +367,7 @@ const organizationFunds = (): JSX.Element => {
         disableColumnMenu
         columnBufferPx={7}
         hideFooter={true}
-        getRowId={(row) => row._id}
+        getRowId={(row) => row.id}
         slots={{
           noRowsOverlay: () => (
             <Stack height="100%" alignItems="center" justifyContent="center">
@@ -369,10 +379,7 @@ const organizationFunds = (): JSX.Element => {
         getRowClassName={() => `${styles.rowBackgrounds}`}
         autoHeight
         rowHeight={65}
-        rows={funds.map((fund, index) => ({
-          id: index + 1,
-          ...fund,
-        }))}
+        rows={funds}
         columns={columns}
         isRowSelectable={() => false}
       />

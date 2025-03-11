@@ -1011,7 +1011,7 @@ export interface InterfaceQueryFundCampaignsPledges {
   pledges: InterfacePledgeInfo[];
 }
 export interface InterfaceFundInfo {
-  _id: string;
+  id: string;
   name: string;
   refrenceNumber: string;
   taxDeductible: boolean;
@@ -1019,7 +1019,19 @@ export interface InterfaceFundInfo {
   isDefault: boolean;
   createdAt: string;
   organizationId: string;
-  creator: { _id: string; firstName: string; lastName: string };
+  creator: { id: string; firstName: string; lastName: string };
+  organization: { id: string; name: string };
+  edges: {
+    node: {
+      id: string;
+      name: string;
+      fundingGoal: number;
+      startDate: string;
+      endDate: string;
+      currency: string;
+      createdAt: string;
+    };
+  };
 }
 export interface InterfaceCampaignInfo {
   _id: string;
