@@ -315,7 +315,8 @@
     "addMembers": "Agregar miembros",
     "searchFullName": "Ingrese el nombre completo",
     "user": "Usuario",
-    "profile": "Perfil"
+    "profile": "Perfil",
+    "createUser": "Crear usuario"
   },
   "organizationTags": {
     "title": "Etiquetas de Organización",
@@ -1147,7 +1148,16 @@
     "partTime": "Medio Tiempo",
     "enterState": "Ingresar ciudad o estado",
     "selectCountry": "Seleccionar un país",
-    "joined": "Unido"
+    "joined": "Unido",
+    "enterPhoneNo": "Ingrese número de teléfono",
+    "workPhoneNumber": "Número de teléfono del trabajo",
+    "homePhoneNumber": "Número de teléfono de casa",
+    "addressLine1": "Dirección Línea 1",
+    "addressLine2": "Dirección Línea 2",
+    "postalCode": "Código Postal",
+    "city": "Ciudad",
+    "description": "Descripción",
+    "enterDescription": "Ingrese descripción"
   },
   "donate": {
     "title": "Donaciones",
@@ -1308,10 +1318,8 @@
     "existingUser": "Usuario existente",
     "newUser": "Usuario nuevo",
     "searchFullName": "Buscar por nombre completo",
-    "firstName": "Nombre",
-    "enterFirstName": "Ingrese el nombre",
-    "lastName": "Apellido",
-    "enterLastName": "Ingrese el apellido",
+    "name": "Nombre",
+    "enterName": "Ingrese un nombre",
     "emailAddress": "Dirección de correo electrónico",
     "enterEmail": "Ingrese el correo electrónico",
     "password": "Contraseña",
